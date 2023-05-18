@@ -1,0 +1,158 @@
+@import url(https://fonts.googleapis.com/css2?family=Poppins&display=swap);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.btn {
+  padding: 10px 35px;
+  border-radius: 300px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #6100ff;
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: #260064;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.home-header {
+  background: linear-gradient(to bottom, #6100ff, #d38eff);
+  padding: 100px 25px 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 0 0 50% 50%;
+}
+.home-header .home-header-text {
+  text-align: center;
+  color: #fff;
+}
+.home-header .home-header-text .title {
+  font-size: 40px;
+  font-weight: 700;
+}
+.home-header .home-header-text .tagline {
+  font-size: 20px;
+  font-weight: 300;
+}
+.home-header .home-header-search {
+  margin-top: 20px;
+}
+.home-header .home-header-search input {
+  width: 600px;
+  max-width: 100%;
+  border-radius: 300px;
+  text-align: center;
+  padding: 10px 20px;
+  border: 2px solid #6100ff;
+}
+.home-header .home-header-search input:focus {
+  outline: none;
+}
+
+.login-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-page .login-form-box {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  max-width: 100%;
+}
+.login-page .login-form-box .login-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #260064;
+}
+.login-page .login-form-box .field {
+  margin-bottom: 25px;
+}
+.login-page .login-form-box .field input {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+.login-page .login-form-box .field .has-error {
+  border-color: #e91e1e;
+}
+.login-page .login-form-box .field-error {
+  color: #e91e1e;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.menu {
+  background: #6100ff;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 25px;
+}
+.menu .logo {
+  height: 46px;
+}
+.menu ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  gap: 30px;
+}
+.menu ul li a {
+  color: #fff;
+  height: 46px;
+  width: 46px;
+  font-size: 22px;
+  background: #570bd7;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  position: relative;
+}
+.menu ul li a:hover {
+  background: #fff;
+  color: #6100ff;
+}
+.menu ul li a .info-count {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff36f7;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(20%, -20%);
+  color: #fff;
+}

@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+@import "_variables.scss";
+@import "_global.sass";
+
+// Pages
+@import "pages/home.sass";
+@import "pages/auth.sass";
+
+// Partials
+@import "partials/_nav.sass";
