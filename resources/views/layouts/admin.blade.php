@@ -27,7 +27,7 @@
 
         <div class="flex flex-col md:flex-row">
             @include('admin.partials._sidebar_nav')
-            <section>
+            <section class="w-full">
                 <div id="main" class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5 w-full">
                     <div class="bg-gray-800 pt-3">
                         <div
@@ -35,7 +35,9 @@
                             <h1 class="font-bold pl-2">@yield('content_title')</h1>
                         </div>
                     </div>
-                    @yield('content')
+                    <div class="container">
+                        @yield('content')
+                    </div>
                 </div>
             </section>
         </div>
