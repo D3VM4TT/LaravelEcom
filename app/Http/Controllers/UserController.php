@@ -60,7 +60,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return view('users.show',compact('user'));
+        return view('admin.pages.users.index',compact('user'));
     }
 
     /**
@@ -72,18 +72,20 @@ class UserController extends Controller
 
         $roles = Role::pluck('name','name')->all();
 
-        $userRole = $user->roles->pluck('name','name')->all();
+        $userRoles = $user->roles->pluck('name','name')->all();
 
-        return view('users.edit',compact('user','roles','userRole'));
+        return view('admin.pages.users.edit',compact('user','roles','userRoles'));
     }
 
     /**
      * Update the specified resource in storage
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, User $user): \Illuminate\Http\RedirectResponse
+    {
+
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id,
+            'email' => 'required|email|unique:users,email,'.$user->id,
             'password' => 'same:confirm-password',
             'roles' => 'required'
         ]);
@@ -95,14 +97,14 @@ class UserController extends Controller
             $input = Arr::except($input, array('password'));
         }
 
-        $user = User::find($id);
+        $user = User::find($user->id);
         $user->update($input);
 
         // remove all the old roles
-        DB::table('model_has_roles')->where('model_id',$id)->delete();
+        DB::table('model_has_roles')->where('model_id',$user->id)->delete();
 
         // assign the new roles
-        $user->assignRole($request->input('roles')); // TODO: Could probably just use $input['roles'] here
+        $user->assignRole($input['roles']); // TODO: Could probably just use $input['roles'] here
 
         return redirect()->route('users.index')
             ->with('success','User updated successfully');
