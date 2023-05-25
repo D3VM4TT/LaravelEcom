@@ -62,7 +62,7 @@
                             <a class="btn btn-info" href="{{ route('users.show', $user->id) }}">Show</a>
                             <a class="btn btn-primary" href="{{ route('users.edit', $user->id) }}">Edit</a>
                             {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id], 'style' => 'display:inline']) !!}
-                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                {!! Form::submit('Delete', ['class' => 'text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 cursor-pointer']) !!}
                             {!! Form::close() !!}
                         </td>
                     </tr>
