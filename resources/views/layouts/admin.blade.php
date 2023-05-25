@@ -35,7 +35,7 @@
                             <h1 class="font-bold pl-2">@yield('content_title')</h1>
                         </div>
                     </div>
-                    <div class="container">
+                    <div class="p-11 d-flex justify-content-center">
                         @yield('content')
                     </div>
                 </div>

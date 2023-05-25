@@ -6,10 +6,9 @@
 @section('content')
     <div class='overflow-x-auto w-full'>
 
-        <div>
+        <div class="my-3 float-right" >
             <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 href="{{ route('users.create') }}"> Create New User</a>
-
         </div>
 
         @if ($message = Session::get('success'))

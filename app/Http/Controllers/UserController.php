@@ -60,7 +60,12 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return view('admin.pages.users.index',compact('user'));
+
+        $roles = Role::pluck('name','name')->all();
+
+        $userRoles = $user->roles->pluck('name','name')->all();
+
+        return view('admin.pages.users.edit',compact('user','roles','userRoles'));
     }
 
     /**
