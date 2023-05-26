@@ -22,8 +22,8 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::latest()->paginate(5);
-        return view('admin.pages.product.index', compact('products'))
+        $data = Product::latest()->paginate(5);
+        return view('admin.pages.product.index', compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
 
     }
