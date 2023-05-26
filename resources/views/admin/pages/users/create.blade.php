@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="w-full">
-        <form id="createUserForm" name="createUserForm" method="post" action="{{ route('users.store') }}" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full">
+        <form id="createUserForm" name="createUserForm" method="post" action="{{ route('admin.users.store') }}" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full">
             @csrf
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
@@ -13,7 +13,7 @@
                 </label>
                 <input
                     class="shadow appearance-none border rounded w-full @if ($errors->has('username')) border-red-500 @endif py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="name" type="text" placeholder="Username" name="name"> 
+                    id="name" type="text" placeholder="Username" name="name">
                 @if ($errors->has('username'))
                     <p class="text-red-500 text-xs italic">{{ $errors->first('name') }}</p>
                 @endif
@@ -56,7 +56,7 @@
                 <label for="roles" class="block text-gray-700 text-sm font-bold mb-2">Select User Roles</label>
                 <select multiple id="roles" name="roles"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    <option selected>Choose Roles</option>
+                    <option disabled selected>Choose Roles</option>
                     @foreach ($roles as $role)
                         <option value="{{ $role }}">{{ $role }}</option>
                     @endforeach
