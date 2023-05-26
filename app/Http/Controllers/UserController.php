@@ -50,7 +50,7 @@ class UserController extends Controller
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
 
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.index')
             ->with('success','User created successfully');
     }
 
@@ -111,7 +111,7 @@ class UserController extends Controller
         // assign the new roles
         $user->assignRole($input['roles']); // TODO: Could probably just use $input['roles'] here
 
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.index')
             ->with('success','User updated successfully');
     }
 
@@ -121,7 +121,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::find($id)->delete();
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.index')
             ->with('success','User deleted successfully');
     }
 

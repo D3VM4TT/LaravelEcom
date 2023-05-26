@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Admin Users')
-@section('content_title', 'User Management')
+@section('title', 'Admin Products')
+@section('content_title', 'Product Management')
 
 @section('content')
     <div class='overflow-x-auto w-full'>

@@ -24,7 +24,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('admin', [AdminController::class, 'admin'])->name('admin');
 
-    Route::group(['name' => 'admin.', 'prefix' => 'admin'], function () {
+    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::resource('roles', RoleController::class);
         Route::resource('users', UserController::class);
         Route::resource('products', ProductController::class);
