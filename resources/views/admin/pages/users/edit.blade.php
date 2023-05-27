@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="w-full">
-        <form id="createUserForm" name="createUserForm" method="post" action="{{ route('users.update', ["user" => $user]) }}" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full">
+        <form id="createUserForm" name="createUserForm" method="post" action="{{ route('admin.users.update', ["user" => $user]) }}" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full">
             @csrf
             @method('patch')
 

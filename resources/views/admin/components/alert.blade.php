@@ -1,9 +1,11 @@
-{{-- TODO: Introduce Alert types here (for now its always success) --}}
-<div class="alert alert-success">
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+{{($type === 'success') ? $color = 'green' : $color = 'red'}}
+
+<div class="{{$attributes->merge(['class' => 'alert alert-' . $type])}}">
+    <div class="bg-{{$color}}-100 border border-{{$color}}-400 text-{{$color}}-700 px-4 py-3 rounded relative"
+         role="alert">
         <span class="block sm:inline">{{ $message }}</span>
         <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-                        <svg class="fill-current h-6 w-6 text-green-500" role="button"
+                        <svg class="fill-current h-6 w-6 text-{{$color}}-500" role="button"
                              xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 20 20">
                             <title>Close</title>

@@ -38,7 +38,7 @@
                 <div class="p-11 flex flex-col justify-content-center">
 
                     @if ($message = Session::get('success'))
-                        @include('admin.partials._alert', ['type' => 'success', 'message' => $message])
+                        <x-alert type="success" :message="$message"/>
                     @endif
 
                     @yield('content')
