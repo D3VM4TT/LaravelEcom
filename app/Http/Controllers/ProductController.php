@@ -33,7 +33,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-       return view('products.show', compact('product'));
+       return view('admin.pages.products.show', compact('product'));
     }
 
     /**
@@ -41,7 +41,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        return view('admin.pages.products.create');
     }
 
     /**
@@ -68,7 +68,7 @@ class ProductController extends Controller
      */
     public function edit()
     {
-        return view('products.edit');
+        return view('admin.pages.products.edit');
     }
 
     /**
