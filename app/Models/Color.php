@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Color extends Model
@@ -20,15 +21,8 @@ class Color extends Model
     /**
      * Get the products that are associated with the color.
      */
-    public function products(): HasManyThrough
+    public function products(): BelongsToMany
     {
-        return $this->hasManyThrough(
-            Product::class,
-            ProductColor::class,
-            'color_id',
-            'id',
-            'id',
-            'product_id'
-        );
+        return $this->belongsToMany(ProductColor::class, 'product_colors', 'color_id', 'product_id');
     }
 }

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Color;
 use App\Models\Product;
+use App\Models\ProductColor;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -11,9 +14,9 @@ class ProductController extends Controller
     public function __construct()
     {
         // set the permissions for this controller
-        $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index','show']]);
-        $this->middleware('permission:product-create', ['only' => ['create','store']]);
-        $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:product-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:product-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:product-delete', ['only' => ['destroy']]);
     }
 
@@ -33,7 +36,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-       return view('admin.pages.products.show', compact('product'));
+        return view('admin.pages.products.show', compact('product'));
     }
 
     /**
@@ -41,7 +44,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.products.create');
+        $categories = Category::all();
+        $colors = Color::all();
+
+        return view('admin.pages.product.create', compact('categories', 'colors'));
     }
 
     /**
@@ -54,11 +60,30 @@ class ProductController extends Controller
             'description' => 'required',
         ]);
 
-        // TODO: Create the new product entity
+        $productData = $request->all();
 
-        $product = Product::create($request->all());
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $filename = date('YmdHi') . $file->getClientOriginalName();
+            $file->move(public_path('public/Product'), $filename);
+            $productData['image'] = $filename;
+        }
 
-        return redirect()->route('products.index')
+        $product = Product::create($productData);
+
+        $productCategory = Category::find($request['category']);
+
+        $product->category()->associate($productCategory);
+
+        $productColors = $productData['colors'];
+
+        foreach ($productColors as $color) {
+            $product->colors()->attach($color);
+        }
+
+        $product->save();
+
+        return redirect()->route('admin.products.index')
             ->with('success', 'Product created successfully');
 
     }
@@ -76,12 +101,12 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-       $this->validate($request, [
-           'name' => 'required',
-           'description' => 'required',
-       ]);
+        $this->validate($request, [
+            'name' => 'required',
+            'description' => 'required',
+        ]);
 
-      $product->update($request->all());
+        $product->update($request->all());
         return redirect()->route('products.index')
             ->with('success', 'Product updated successfully');
     }

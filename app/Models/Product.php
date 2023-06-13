@@ -34,15 +34,8 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function colors(): HasManyThrough
+    public function colors(): BelongsToMany
     {
-        return $this->hasManyThrough(
-            Color::class,
-            ProductColor::class,
-            'product_id',
-            'id',
-            'id',
-            'color_id'
-        );
+        return $this->belongsToMany(Color::class, 'product_colors', 'product_id', 'color_id');
     }
 }
