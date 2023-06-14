@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\FileHelper;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
 use App\Models\ProductColor;
 use Illuminate\Http\Request;
+use App\Services\ProductService;
 
 class ProductController extends Controller
 {
 
-    public function __construct()
+    public function __construct(private ProductService $productService)
     {
         // set the permissions for this controller
         $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index', 'show']]);
@@ -97,43 +99,15 @@ class ProductController extends Controller
         $colors = Color::all();
         $contentTitle = 'Product Management: Update Product';
 
-        return view('admin.pages.product.form', compact('product', 'categories', 'colors', 'contentTitle' ));
+        return view('admin.pages.product.form', compact('product', 'categories', 'colors', 'contentTitle'));
     }
 
     /**
      * Update the specified resource in storage
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductUpdateRequest $request, Product $product)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'description' => 'required',
-            'price' => 'required',
-            'category' => 'required',
-            'colors' => 'required',
-        ]);
-
-        $productData = $request->except(['image']);
-
-        if ($request->file('image')) {
-            $productData['image'] = FileHelper::uploadImage($request->file('image'), 'public/Product');
-        }
-
-        $product->update($productData);
-
-        $currentProductCategory = $product->category()->pluck('id')->first();
-        if ($currentProductCategory != $productData['category']) {
-            $productCategory = Category::find($productData['category']);
-            $product->category()->associate($productCategory);
-        }
-
-        $currentProductColors = $product->colors()->pluck('id')->toArray();
-        if ($currentProductColors != $productData['colors']) {
-            $product->colors()->detach($currentProductColors);
-            $product->colors()->attach($productData['colors']);
-        }
-
-        $product->save();
+        $this->productService->updateProduct($product, $request);
 
         return redirect()->route('admin.products.index')
             ->with('success', 'Product updated successfully');
