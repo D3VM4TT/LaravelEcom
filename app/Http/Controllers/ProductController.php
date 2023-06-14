@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FileHelper;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
@@ -46,8 +47,9 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $colors = Color::all();
+        $contentTitle = 'Product Management: Create Product';
 
-        return view('admin.pages.product.create', compact('categories', 'colors'));
+        return view('admin.pages.product.form', compact('categories', 'colors', 'contentTitle'));
     }
 
     /**
@@ -63,10 +65,7 @@ class ProductController extends Controller
         $productData = $request->all();
 
         if ($request->file('image')) {
-            $file = $request->file('image');
-            $filename = date('YmdHi') . $file->getClientOriginalName();
-            $file->move(public_path('public/Product'), $filename);
-            $productData['image'] = $filename;
+            $productData['image'] = FileHelper::uploadImage($request->file('image'), 'public/Product');
         }
 
         $product = Product::create($productData);
@@ -91,9 +90,14 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource
      */
-    public function edit()
+    public function edit(Product $product)
     {
-        return view('admin.pages.products.edit');
+
+        $categories = Category::all();
+        $colors = Color::all();
+        $contentTitle = 'Product Management: Update Product';
+
+        return view('admin.pages.product.form', compact('product', 'categories', 'colors', 'contentTitle' ));
     }
 
     /**
@@ -104,10 +108,34 @@ class ProductController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'description' => 'required',
+            'price' => 'required',
+            'category' => 'required',
+            'colors' => 'required',
         ]);
 
-        $product->update($request->all());
-        return redirect()->route('products.index')
+        $productData = $request->except(['image']);
+
+        if ($request->file('image')) {
+            $productData['image'] = FileHelper::uploadImage($request->file('image'), 'public/Product');
+        }
+
+        $product->update($productData);
+
+        $currentProductCategory = $product->category()->pluck('id')->first();
+        if ($currentProductCategory != $productData['category']) {
+            $productCategory = Category::find($productData['category']);
+            $product->category()->associate($productCategory);
+        }
+
+        $currentProductColors = $product->colors()->pluck('id')->toArray();
+        if ($currentProductColors != $productData['colors']) {
+            $product->colors()->detach($currentProductColors);
+            $product->colors()->attach($productData['colors']);
+        }
+
+        $product->save();
+
+        return redirect()->route('admin.products.index')
             ->with('success', 'Product updated successfully');
     }
 
