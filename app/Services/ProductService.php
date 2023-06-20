@@ -3,14 +3,14 @@
 namespace App\Services;
 
 use App\Helpers\FileHelper;
-use App\Http\Requests\ProductUpdateRequest;
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 
 class ProductService
 {
 
-    public function updateProduct(Product $product, ProductUpdateRequest $productUpdateRequest) {
+    public function updateProduct(Product $product, ProductRequest $productUpdateRequest) {
         $productData = $productUpdateRequest->except(['image']);
 
         if ($productUpdateRequest->file('image')) {
@@ -45,10 +45,35 @@ class ProductService
         }
     }
 
-    public function uploadImage($file): ?string
+    private function uploadImage($file): ?string
     {
         $filename = date('YmdHi') . $file->getClientOriginalName();
         $file->move(public_path('img/products'), $filename);
         return $filename;
+    }
+
+    public function createProduct(ProductRequest $request)
+    {
+        $productData = $request->all();
+
+        if ($request->file('image')) {
+            $productData['image'] = $this->uploadImage($request->file('image'));
+        }
+
+        $product = Product::create($productData);
+
+        $productCategory = Category::find($request['category']);
+
+        $product->category()->associate($productCategory);
+
+        $productColors = $productData['colors'];
+
+        foreach ($productColors as $color) {
+            $product->colors()->attach($color);
+        }
+
+        $product->save();
+
+        return $product;
     }
 }

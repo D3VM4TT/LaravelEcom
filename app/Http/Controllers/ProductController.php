@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\FileHelper;
-use App\Http\Requests\ProductUpdateRequest;
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
 use App\Models\ProductColor;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Services\ProductService;
 
@@ -57,32 +58,10 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request): RedirectResponse
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'description' => 'required',
-        ]);
 
-        $productData = $request->all();
-
-        if ($request->file('image')) {
-            $productData['image'] = FileHelper::uploadImage($request->file('image'), 'public/Product');
-        }
-
-        $product = Product::create($productData);
-
-        $productCategory = Category::find($request['category']);
-
-        $product->category()->associate($productCategory);
-
-        $productColors = $productData['colors'];
-
-        foreach ($productColors as $color) {
-            $product->colors()->attach($color);
-        }
-
-        $product->save();
+        $this->productService->createProduct($request);
 
         return redirect()->route('admin.products.index')
             ->with('success', 'Product created successfully');
@@ -105,7 +84,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage
      */
-    public function update(ProductUpdateRequest $request, Product $product)
+    public function update(ProductRequest $request, Product $product): RedirectResponse
     {
         $this->productService->updateProduct($product, $request);
 
@@ -116,10 +95,10 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product): RedirectResponse
     {
         $product->delete();
-        return redirect()->route('products.index')
+        return redirect()->route('admin.products.index')
             ->with('success', 'Product deleted successfully');
     }
 
