@@ -1,7 +1,3 @@
-{{-- TODO: Read up on blade components --}}
-{{-- TODO: Add pagination to table --}}
-{{-- TODO: Make a table component --}}
-
 @extends('layouts.admin')
 
 @section('title', 'Admin Products')
