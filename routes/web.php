@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
@@ -31,5 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('products', ProductController::class);
         Route::resource('categories', CategoryController::class);
         Route::get('categories.index/{category?}', [CategoryController::class, 'index'])->name('categories.index');
+        Route::resource('colors', ColorController::class);
+        Route::get('colors.index/{color?}', [ColorController::class, 'index'])->name('colors.index');
     });
 });
