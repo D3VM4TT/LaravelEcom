@@ -17,6 +17,8 @@ class ProductService
             $productData['image'] = $this->uploadImage($productUpdateRequest->file('image'));
         }
 
+        $productData['price'] *= 100;
+
         $product->update($productData);
 
         $this->updateCategory($product, $productData['category']);
@@ -55,6 +57,8 @@ class ProductService
     public function createProduct(ProductRequest $request)
     {
         $productData = $request->all();
+
+        $productData['price'] *= 100;
 
         if ($request->file('image')) {
             $productData['image'] = $this->uploadImage($request->file('image'));

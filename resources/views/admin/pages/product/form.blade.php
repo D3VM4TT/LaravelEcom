@@ -46,7 +46,8 @@
                 </label>
                 <input
                     class="shadow appearance-none border rounded w-full @if ($errors->has('username')) border-red-500 @endif py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="price" type="number" placeholder="Price" name="price" value="{{ $product->price ?? '' }}">
+                    id="price" type="number" placeholder="Price" name="price"
+                    value="{{ (isset($product)) ? $product->price / 100 : ''}}">
                 @if ($errors->has('price'))
                     <p class="text-red-500 text-xs italic">{{ $errors->first('price') }}</p>
                 @endif
@@ -57,12 +58,14 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="image">
                     Image
                 </label>
-                <div class="flex items-center shadow appearance-none border rounded @if ($errors->has('image')) border-red-500 @endif py-2 px-3 focus:outline-none focus:shadow-outline">
+                <div
+                    class="flex items-center shadow appearance-none border rounded @if ($errors->has('image')) border-red-500 @endif py-2 px-3 focus:outline-none focus:shadow-outline">
                     <input
                         class=" text-gray-700 leading-tight"
                         id="price" type="file" placeholder="image" name="image">
                     @if (isset($product) && $product->image)
-                        <img src="{{ asset('/img/products/' . $product->image) }}" alt="product image" class="w-20 h-20 object-cover">
+                        <img src="{{ asset('/img/products/' . $product->image) }}" alt="product image"
+                             class="w-20 h-20 object-cover">
                     @endif
                 </div>
                 @if ($errors->has('image'))

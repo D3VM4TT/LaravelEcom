@@ -32,7 +32,7 @@
                                 alt="{{$product->name}}" />
                         </td>
 
-                        <td class="px-6 py-4 text-center">{{$product->price}}</td>
+                        <td class="px-6 py-4 text-center">{{$product->price / 100}}</td>
                         <td class="px-6 py-4 text-center">{{ ($product->category) ? $product->category->name : '' }}</td>
                         <td class="px-6 py-4 text-center">
                             <a class="btn btn-info" href="{{ route('admin.products.show', $product->id) }}">Show</a>
