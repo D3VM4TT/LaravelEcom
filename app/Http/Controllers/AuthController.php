@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MessageHelper;
 use App\Http\Requests\StoreUser;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
@@ -37,7 +38,7 @@ class AuthController extends Controller
         // Login User
         auth()->login($user);
 
-        return back()->with('success', 'User created successfully.');
+        return back()->with('success', MessageHelper::createdSuccessMessage('User'));
     }
 
     /**

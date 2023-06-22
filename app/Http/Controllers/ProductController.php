@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\FileHelper;
+use App\Helpers\MessageHelper;
 use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Color;
@@ -14,6 +15,8 @@ use App\Services\ProductService;
 
 class ProductController extends Controller
 {
+
+    private const ENTITY = 'Product';
 
     public function __construct(private ProductService $productService)
     {
@@ -64,7 +67,7 @@ class ProductController extends Controller
         $this->productService->createProduct($request);
 
         return redirect()->route('admin.products.index')
-            ->with('success', 'Product created successfully');
+            ->with('success', MessageHelper::createdSuccessMessage(self::ENTITY));
 
     }
 
@@ -89,7 +92,7 @@ class ProductController extends Controller
         $this->productService->updateProduct($product, $request);
 
         return redirect()->route('admin.products.index')
-            ->with('success', 'Product updated successfully');
+            ->with('success', MessageHelper::updatedSuccessMessage(self::ENTITY));
     }
 
     /**
@@ -99,7 +102,7 @@ class ProductController extends Controller
     {
         $product->delete();
         return redirect()->route('admin.products.index')
-            ->with('success', 'Product deleted successfully');
+            ->with('success', MessageHelper::deletedSuccessMessage(self::ENTITY));
     }
 
 

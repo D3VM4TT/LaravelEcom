@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MessageHelper;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    private const ENTITY = 'Category';
+
     public function index(Request $request, Category $category = null)
     {
 
@@ -22,7 +25,7 @@ class CategoryController extends Controller
         Category::create($request->only('name'));
 
         return redirect()->route('admin.categories.index')
-            ->with('success', 'Category created successfully');
+            ->with('success', MessageHelper::createdSuccessMessage(self::ENTITY));
     }
 
     public function update(CategoryRequest $request, Category $category)
@@ -30,7 +33,7 @@ class CategoryController extends Controller
         $category->update($request->only('name'));
 
         return redirect()->route('admin.categories.index')
-            ->with('success', 'Category updated successfully');
+            ->with('success', MessageHelper::updatedSuccessMessage(self::ENTITY));
     }
 
     public function destroy(Category $category)
@@ -38,6 +41,6 @@ class CategoryController extends Controller
         $category->delete();
 
         return redirect()->route('admin.categories.index')
-            ->with('success', 'Category deleted successfully');
+            ->with('success', MessageHelper::deletedSuccessMessage(self::ENTITY));
     }
 }

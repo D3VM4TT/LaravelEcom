@@ -21,7 +21,7 @@
                 </label>
                 <input
                     class="shadow appearance-none border rounded w-full @if ($errors->has('name')) border-red-500 @endif py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="name" type="text" placeholder="name" name="name" value="{{$category->name ?? ''}}">
+                    id="name" type="text" placeholder="name" name="name" value="{{$category->name ?? old('name')}}">
                 @if ($errors->has('name'))
                     <p class="text-red-500 text-xs italic">{{ $errors->first('name') }}</p>
                 @endif
@@ -37,7 +37,7 @@
         </form>
 
 
-        <x-admin-table :headers="['ID','Name','Products','Action']">
+        <x-admin-table :headers="['ID','Name','Products', 'Created', 'Action']">
             <x-slot name="tableBody">
                 @foreach ($categories as $key => $category)
                     <tr>
@@ -49,8 +49,8 @@
                                 </div>
                             </div>
                         </td>
-                        {{-- TODO: Implememnt this --}}
-                        <td class="px-6 py-4 text-center">-</td>
+                        <td class="px-6 py-4 text-center">{{count($category->products)}}</td>
+                        <td class="px-6 py-4 text-center">{{$category->created_at->format('d-m-Y')}}</td>
                         <td class="px-6 py-4 text-center">
                             <a class="btn btn-primary" href="{{ route('admin.categories.index', ['category' => $category]) }}">Edit</a>
                             {!! Form::open(['method' => 'DELETE', 'route' => ['admin.categories.destroy', $category->id], 'style' => 'display:inline']) !!}

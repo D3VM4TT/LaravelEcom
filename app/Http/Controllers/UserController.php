@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MessageHelper;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -11,12 +12,16 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+
+    private const ENTITY = 'User';
+
     /**
      * Display a listing of the resource
      *
      */
-    public function index(Request $request){
-        $data = User::orderBy('id','DESC')->paginate(5);
+    public function index(Request $request)
+    {
+        $data = User::orderBy('id', 'DESC')->paginate(5);
 
         return view('admin.pages.users.index', compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
@@ -27,7 +32,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
+        $roles = Role::pluck('name', 'name')->all();
         return view('admin.pages.users.create', compact('roles'));
     }
 
@@ -51,7 +56,7 @@ class UserController extends Controller
         $user->assignRole($request->input('roles'));
 
         return redirect()->route('admin.users.index')
-            ->with('success','User created successfully');
+            ->with('success', MessageHelper::createdSuccessMessage(self::ENTITY));
     }
 
     /**
@@ -61,11 +66,11 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        $roles = Role::pluck('name','name')->all();
+        $roles = Role::pluck('name', 'name')->all();
 
-        $userRoles = $user->roles->pluck('name','name')->all();
+        $userRoles = $user->roles->pluck('name', 'name')->all();
 
-        return view('admin.pages.users.edit',compact('user','roles','userRoles'));
+        return view('admin.pages.users.edit', compact('user', 'roles', 'userRoles'));
     }
 
     /**
@@ -75,11 +80,11 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        $roles = Role::pluck('name','name')->all();
+        $roles = Role::pluck('name', 'name')->all();
 
-        $userRoles = $user->roles->pluck('name','name')->all();
+        $userRoles = $user->roles->pluck('name', 'name')->all();
 
-        return view('admin.pages.users.edit',compact('user','roles','userRoles'));
+        return view('admin.pages.users.edit', compact('user', 'roles', 'userRoles'));
     }
 
     /**
@@ -90,13 +95,13 @@ class UserController extends Controller
 
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$user->id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'same:confirm-password',
             'roles' => 'required'
         ]);
 
         $input = $request->all();
-        if(!empty($request['password'])) {
+        if (!empty($request['password'])) {
             $input['password'] = Hash::make($input['password']);
         } else {
             $input = Arr::except($input, array('password'));
@@ -106,13 +111,13 @@ class UserController extends Controller
         $user->update($input);
 
         // remove all the old roles
-        DB::table('model_has_roles')->where('model_id',$user->id)->delete();
+        DB::table('model_has_roles')->where('model_id', $user->id)->delete();
 
         // assign the new roles
         $user->assignRole($input['roles']);
 
         return redirect()->route('admin.users.index')
-            ->with('success','User updated successfully');
+            ->with('success', MessageHelper::updatedSuccessMessage(self::ENTITY));
     }
 
     /**
@@ -122,7 +127,7 @@ class UserController extends Controller
     {
         User::find($id)->delete();
         return redirect()->route('admin.users.index')
-            ->with('success','User deleted successfully');
+            ->with('success', MessageHelper::deletedSuccessMessage(self::ENTITY));
     }
 
 }

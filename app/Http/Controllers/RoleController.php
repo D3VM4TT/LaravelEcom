@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MessageHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
@@ -9,6 +10,9 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
+
+    private const ENTITY = 'Role';
+
     public function __construct()
     {
         // set the permissions for this controller
@@ -52,7 +56,7 @@ class RoleController extends Controller
 
         // redirect to the index page with a message
         return redirect()->route('roles.index')
-            ->with('success','Role created successfully');
+            ->with('success', MessageHelper::createdSuccessMessage(self::ENTITY));
     }
 
     /**
@@ -101,7 +105,7 @@ class RoleController extends Controller
         $role->syncPermissions($request->input('permission'));
 
         return redirect()->route('roles.index')
-            ->with('success','Role updated successfully');
+            ->with('success', MessageHelper::updatedSuccessMessage(self::ENTITY));
 
 
     }
@@ -112,6 +116,6 @@ class RoleController extends Controller
     public function destroy($id){
        DB::table("roles")->where('id',$id)->delete();
        return redirect()->route('roles.index')
-           ->with('success','Role deleted successfully');
+           ->with('success', MessageHelper::deletedSuccessMessage(self::ENTITY));
     }
 }
