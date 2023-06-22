@@ -11,7 +11,7 @@
                href="{{ route('admin.products.create') }}"> Create New Product</a>
         </div>
 
-        <x-admin-table  :headers="['No','Name','Price','Category','Action']">
+        <x-admin-table  :headers="['No','Name', 'Image', 'Price','Category','Action']">
             <x-slot name="tableBody">
                 @foreach ($data as $key => $product)
                     <tr>
@@ -23,6 +23,13 @@
                                     <p class="text-gray-500 text-sm font-semibold tracking-wide"> {{ \Illuminate\Support\Str::limit($product->description, 100, $end='...') }}</p>
                                 </div>
                             </div>
+                        </td>
+
+                        <td class="px-6 py-4 text-center">
+                            <img
+                                src="{{ asset('/img/products/' . $product->image) }}"
+                                class="h-16 w-16 object-cover"
+                                alt="{{$product->name}}" />
                         </td>
 
                         <td class="px-6 py-4 text-center">{{$product->price}}</td>
