@@ -11,9 +11,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'index'])->name('home');
-Route::get('cart', [PageController::class, 'cart'])->name('cart');
 
-// Auth
 Route::middleware(['guest'])->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('login');
     Route::post('login', [AuthController::class, 'postLogin'])->name('login');
@@ -22,7 +20,10 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-    // Authenticated Routes Here
+    Route::get('profile', [PageController::class, 'profile'])->name('profile');
+    Route::get('wishlist', [PageController::class, 'wishlist'])->name('wishlist');
+    Route::get('cart', [PageController::class, 'cart'])->name('cart');
+
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('admin', [AdminController::class, 'admin'])->name('admin');
 

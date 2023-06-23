@@ -29,6 +29,9 @@
                             </button>
                         </div>
                     </form>
+                    <div>
+                        Dont have a account yet? <a href="{{route('register')}}">Register</a>
+                    </div>
                 </div>
             </div>
         </section>

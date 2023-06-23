@@ -41,6 +41,9 @@
                             </button>
                         </div>
                     </form>
+                    <div>
+                       Already have a account? <a href="{{route('login')}}">Login</a>
+                    </div>
                 </div>
             </div>
         </section>

@@ -15,4 +15,15 @@ class PageController extends Controller
     {
         return view('pages/cart');
     }
+
+    public function wishlist()
+    {
+        return view('pages/wishlist');
+    }
+
+    public function profile()
+    {
+        return view('pages/profile');
+    }
+
 }
