@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
     public function index()
     {
-        return view('pages/home');
+        // TODO: Get the most recent products from the database
+        $featured_products = Product::orderBy('created_at', 'desc')->take(8)->get();
+
+        return view('pages/home', compact('featured_products'));
     }
 
     public function cart()
