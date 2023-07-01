@@ -3,11 +3,9 @@
     <h1 class="text-3xl">
         {{$title}}
     </h1>
-    <div class="flex flex-wrap">
+    <div class="flex flex-wrap gap-4">
         @foreach($products as $product)
-            <div class="w-1/4">
-                <x-product-box :product="$product"/>
-            </div>
+            <x-product-box :product="$product"/>
         @endforeach
     </div>
 </div>

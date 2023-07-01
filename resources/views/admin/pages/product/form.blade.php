@@ -21,7 +21,7 @@
                 </label>
                 <input
                     class="shadow appearance-none border rounded w-full @if ($errors->has('name')) border-red-500 @endif py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="name" type="text" placeholder="name" name="name" value="{{$product->name ?? ''}}">
+                    id="name" type="text" placeholder="name" name="name" value="{{$product->name ?? old('name')}}">
                 @if ($errors->has('name'))
                     <p class="text-red-500 text-xs italic">{{ $errors->first('name') }}</p>
                 @endif
@@ -34,7 +34,7 @@
                 <label for="description"></label><input
                     class="shadow appearance-none border rounded w-full @if ($errors->has('description')) border-red-500 @endif py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="description" type="text" placeholder="Description" name="description"
-                    value="{{ $product->description ?? '' }}">
+                    value="{{ $product->description ?? old('description') }}">
                 @if ($errors->has('description'))
                     <p class="text-red-500 text-xs italic">{{ $errors->first('description') }}</p>
                 @endif
@@ -47,7 +47,7 @@
                 <input
                     class="shadow appearance-none border rounded w-full @if ($errors->has('username')) border-red-500 @endif py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="price" type="number" placeholder="Price" name="price"
-                    value="{{ (isset($product)) ? $product->price / 100 : ''}}">
+                    value="{{ (isset($product)) ? $product->price / 100 : old('price')}}">
                 @if ($errors->has('price'))
                     <p class="text-red-500 text-xs italic">{{ $errors->first('price') }}</p>
                 @endif
@@ -80,7 +80,12 @@
                     <option disabled selected>Select Category</option>
                     @foreach ($categories as $category)
                         <option
-                            {{ ( isset($product) && $product->category->id === $category->id ) ? ' selected' : '' }}  value="{{ $category->id }}">{{ $category->name }}</option>
+                            @if(
+                                (isset($product) && $product->category->id === $category->id) ||
+                                (old('category') == $category->id))
+                                selected
+                            @endif
+                            value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
                 @if ($errors->has('category'))
@@ -95,7 +100,12 @@
                     <option disabled selected>Select Colors</option>
                     @foreach ($colors as $color)
                         <option
-                            {{(isset($product) && in_array($color->id, $product->colors->pluck('id')->toArray(), false)) ? ' selected' : ''}} value="{{ $color->id }}">{{ $color->name }}</option>
+                            @if((
+                            isset($product) && in_array($color->id, $product->colors->pluck('id')->toArray(), false)) ||
+                            (old('colors') && in_array($color->id, old('colors'))))
+                                selected
+                            @endif
+                            value="{{ $color->id }}">{{ $color->name }}</option>
                     @endforeach
                 </select>
                 @if ($errors->has('colors'))
