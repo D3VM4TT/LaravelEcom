@@ -30,4 +30,12 @@ class PageController extends Controller
         return view('pages/profile');
     }
 
+
+    public function product($id)
+    {
+        $product = Product::find($id);
+
+        return view('pages/product', compact('product'));
+    }
+
 }

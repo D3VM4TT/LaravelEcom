@@ -5,7 +5,9 @@
     </h1>
     <div class="flex flex-wrap">
         @foreach($products as $product)
-            <x-product-box :product="$product"/>
+            <div class="w-1/4">
+                <x-product-box :product="$product"/>
+            </div>
         @endforeach
     </div>
 </div>
