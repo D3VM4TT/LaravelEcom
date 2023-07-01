@@ -1,5 +1,7 @@
 <div
-    class="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+    class="
+    relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md
+    transform transition duration-500 hover:scale-110 hover:shadow-xl">
     <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" href="{{route('product', ['id' => $product->id])}}">
         <img class="object-cover w-full h-full-"
              src="{{asset('img/products/' . $product->image)}}"
