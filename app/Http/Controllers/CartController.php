@@ -14,19 +14,18 @@ class CartController extends Controller
     {
     }
 
-    public function addItemToCart(Request $request, Product $product) {
+    public function addItemToCart(Request $request, Product $product)
+    {
 
         // TODO: This should be a DTO or something
-      $item = [
+        $item = [
             'product_id' => $product->id,
             'quantity' => $request->quantity,
             'color' => $request->color,
-      ];
+        ];
 
-      $this->cartService->addOrUpdateItemInCart($item);
+        $this->cartService->addOrUpdateItemInCart($item);
 
-      dd(session()->all());
-
-
+        return back()->with('success', 'Item added to cart');
     }
 }

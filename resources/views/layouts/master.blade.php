@@ -11,11 +11,12 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
     <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
 </head>
-<body>
-@include('layouts.partials._nav')
-<main class="page">
-    @yield('content')
-</main>
-@include('layouts.partials._footer')
-</body>
+    <body>
+        @include('layouts.partials._nav')
+        <main class="page">
+            @yield('content')
+        </main>
+        @include('layouts.partials._footer')
+        @stack('scripts')
+    </body>
 </html>

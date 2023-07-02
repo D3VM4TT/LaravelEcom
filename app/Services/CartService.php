@@ -49,6 +49,8 @@ class CartService
             return $this->updateItemInCart($item);
         }
 
+        session()->flash('success', 'Item added to cart');
+
         return $this->createItemInCart($item);
 
 
