@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'index'])->name('home');
 Route::get('/product/{id}', [PageController::class, 'product'])->name('product');
-Route::post('/cart/add/{product}', [CartController::class, 'addItemToCart'])->name('add-to-cart');
+Route::post('/cart/add/{product}', [CartController::class, 'addItemToCart'])->name('cart.add');
+Route::get('cart', [PageController::class, 'cart'])->name('cart.index');
 
 Route::middleware(['guest'])->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('login');
@@ -25,7 +26,6 @@ Route::middleware(['guest'])->group(function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('profile', [PageController::class, 'profile'])->name('profile');
     Route::get('wishlist', [PageController::class, 'wishlist'])->name('wishlist');
-    Route::get('cart', [PageController::class, 'cart'])->name('cart');
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('admin', [AdminController::class, 'admin'])->name('admin');
