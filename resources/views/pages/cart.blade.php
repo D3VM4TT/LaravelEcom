@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Contact')
+@section('title', 'Cart')
 
 @section('content')
     <div class="container mx-auto mt-10">
