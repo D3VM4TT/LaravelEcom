@@ -21,7 +21,9 @@ class CartController extends Controller
         $item = Item::create([
             'product_id' => $product->id,
             'quantity' => $request->quantity,
-            'color_id' => 11 // $request->color,
+            // TODO: color_id is hardcoded
+            'color_id' => 11, // $request->color,
+            'total' => $product->price * $request->quantity,
         ]);
 
 

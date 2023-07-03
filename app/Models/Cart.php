@@ -38,6 +38,7 @@ class Cart
             if ($cartItem->product->id == $item->product->id && $cartItem->color->id == $item->color->id) {
                 $cartItem->quantity += $item->quantity;
                 $cartItem->color = $item->color;
+                $cartItem->total = $cartItem->product->price * $cartItem->quantity;
                 $itemsInCart[$key] = $cartItem;
             }
         }

@@ -16,7 +16,7 @@ class Item extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['product_id','order_id', 'quantity', 'color_id' ];
+    protected $fillable = ['product_id','order_id', 'quantity', 'color_id', 'total' ];
 
     /**
      * Get the product that owns the item.
