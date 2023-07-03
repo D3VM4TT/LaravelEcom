@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'index'])->name('home');
 Route::get('/product/{id}', [PageController::class, 'product'])->name('product');
-Route::post('/cart/add/{product}', [CartController::class, 'addItemToCart'])->name('cart.add');
+Route::post('/cart/{product}', [CartController::class, 'addItemToCart'])->name('cart.add');
+Route::delete('/cart/{item}', [CartController::class, 'removeItemFromCart'])->name('cart.remove');
 Route::get('cart', [PageController::class, 'cart'])->name('cart.index');
 
 Route::middleware(['guest'])->group(function () {

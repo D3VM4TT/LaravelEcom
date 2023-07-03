@@ -4,81 +4,84 @@ namespace App\Services;
 
 use App\Helpers\FileHelper;
 use App\Http\Requests\ProductRequest;
+use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Item;
 use App\Models\Product;
 
 class CartService
 {
 
-    public function getCart(): mixed
+    public function getCart(): ?Cart
     {
-        return session()->get('cart');
-    }
-
-    public function createCart(): void
-    {
-        session()->put('cart', [
-            'items' => [],
-            'total' => 0,
-        ]);
-    }
-
-    public function cartContainsItem($item): bool
-    {
-        $cart = $this->getCart();
-
-        foreach ($cart['items'] as $cartItem) {
-            if ($cartItem['product_id'] == $item['product_id'] && $cartItem['color'] == $item['color']) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public function addOrUpdateItemInCart($item)
-    {
-        $cart = $this->getCart();
-
+        $cart = session()->get('cart');
 
         if (!$cart) {
-            $this->createCart();
+            return null;
         }
 
-        if ($this->cartContainsItem($item)) {
-            return $this->updateItemInCart($item);
+        return new Cart($cart['items'], $cart['total']);
+    }
+
+    public function createNewCart(): ?Cart
+    {
+        $items = [];
+        $total = 0;
+
+        $cart = new Cart($items, $total);
+        session()->put('cart', $cart->toArray());
+        return $cart;
+    }
+
+
+    public function addItemToCartSession(Item $item)
+    {
+        $cart = $this->getCart();
+
+        if (!$cart) {
+            $cart = $this->createNewCart();
         }
+
+        $cart->addItem($item);
+
+        session()->put('cart', $cart->toArray());
 
         session()->flash('success', 'Item added to cart');
 
-        return $this->createItemInCart($item);
+    }
 
+    public function removeItemFromCartSession(Item $item): void
+    {
+        $cart = $this->getCart();
+
+        if (!$cart) {
+            $cart = $this->createNewCart();
+        }
+
+        $cart->removeItem($item);
+
+        session()->put('cart', $cart->toArray());
+
+        session()->flash('success', 'Item removed from cart');
 
     }
 
-    private function updateItemInCart($item)
+    public function getItemByProductId(int $productId): ?Item
     {
-
         $cart = $this->getCart();
 
+        if (!$cart) {
+            return null;
+        }
 
-        foreach ($cart['items'] as $key => $cartItem) {
-            if ($cartItem['product_id'] == $item['product_id'] && $cartItem['color'] == $item['color']) {
-                $cartItem['color'] = $item['color'];
-                $cartItem['quantity'] += $item['quantity'];
-                $cart['items'][$key] = $cartItem;
+        foreach ($cart->getItems() as $item) {
+            if ($item->product->id == $productId) {
+                return $item;
             }
         }
-        session()->put('cart', $cart);
+
+        return null;
     }
 
-    private function createItemInCart($item)
-    {
-        $cart = $this->getCart();
-
-        $cart['items'][] = $item;
-
-        session()->put('cart', $cart);
-    }
 
 }
