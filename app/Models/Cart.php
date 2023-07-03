@@ -6,7 +6,7 @@ class Cart
 {
 
 
-    public function __construct(private array $items, private int $total)
+    public function __construct(private array $items, private int $total = 0)
     {
     }
 
@@ -54,9 +54,15 @@ class Cart
             $this->updateItem($item);
         }
 
-        $cartTotal = $this->getTotal();
-        $cartTotal += $item->product->price * $item->quantity;
-        $this->setTotal($cartTotal);
+    }
+
+    private function recalculateTotal()
+    {
+        $total = 0;
+        foreach ($this->getItems() as $item) {
+            $total += $item->product->price * $item->quantity;
+        }
+        $this->setTotal($total);
 
     }
 
@@ -85,10 +91,12 @@ class Cart
     public function setItems(array $items): void
     {
         $this->items = $items;
+        $this->recalculateTotal();
     }
 
     public function removeItem(Item $item)
     {
+
         $itemsInCart = $this->getItems();
 
         foreach ($itemsInCart as $key => $cartItem) {
@@ -98,6 +106,7 @@ class Cart
         }
 
         $this->setItems($itemsInCart);
+
     }
 
     /**
