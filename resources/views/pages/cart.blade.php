@@ -80,15 +80,16 @@
 {{--                    <input type="text" id="promo" placeholder="Enter your code" class="p-2 text-sm w-full">--}}
 {{--                </div>--}}
 {{--                <button class="bg-red-500 hover:bg-red-600 px-5 py-2 text-sm text-white uppercase">Apply</button>--}}
-                <div class="border-t mt-8">
+                <div class="border-t mt-8 flex flex-col">
                     <div class="flex font-semibold justify-between py-6 text-sm uppercase">
                         <span>Total cost</span>
                         <span>${{$cart->getTotal()}}</span>
                     </div>
-                    <button
-                        class="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">
+                    <a href="{{route('checkout')}}"
+                       class="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full text-center">
                         Checkout
-                    </button>
+                    </a>
+
                 </div>
             </div>
 

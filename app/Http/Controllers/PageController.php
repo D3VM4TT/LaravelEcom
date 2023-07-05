@@ -26,7 +26,7 @@ class PageController extends Controller
     {
         $cart = $this->cartService->getCart();
 
-        if (empty($cart->getItems())) {
+        if (!$cart || empty($cart->getItems())) {
             return redirect()->route('home');
         }
 
@@ -49,6 +49,22 @@ class PageController extends Controller
         $product = Product::find($id);
 
         return view('pages/product', compact('product'));
+    }
+
+    public function checkout(Request $request)
+    {
+        $cart = $this->cartService->getCart();
+
+        if (!$cart || empty($cart->getItems())) {
+            return redirect()->route('home');
+        }
+
+        return view('pages/checkout', compact('cart'));
+    }
+
+    public function orderSuccess(Request $request)
+    {
+        return view('pages/order-success');
     }
 
 }

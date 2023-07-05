@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -25,6 +26,9 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('checkout', [PageController::class, 'checkout'])->name('checkout');
+    Route::post('order/process-payment', [PaymentController::class, 'processPayment'])->name('order.process-payment');
+    Route::get('order/success/{id}', [PageController::class, 'orderSuccess'])->name('order.success');
     Route::get('profile', [PageController::class, 'profile'])->name('profile');
     Route::get('wishlist', [PageController::class, 'wishlist'])->name('wishlist');
 
