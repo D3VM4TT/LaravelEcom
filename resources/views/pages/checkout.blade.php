@@ -1,6 +1,8 @@
 @extends('layouts.master')
 @section('title', 'Checkout')
 
+{{-- TODO: Add error messages to form here --}}
+
 @push('scripts')
     <script src="https://js.stripe.com/v3/"></script>
 
@@ -117,7 +119,7 @@
                         <li class="flex items-center space-x-3 text-left sm:space-x-4">
                             <a class="flex h-6 w-6 items-center justify-center rounded-full bg-gray-600 text-xs font-semibold text-white ring ring-gray-600 ring-offset-2"
                                href="#">2</a>
-                            <span class="font-semibold text-gray-900">Shipping</span>
+                            <span class="font-semibold text-gray-900">Checkout</span>
                         </li>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -126,7 +128,7 @@
                         <li class="flex items-center space-x-3 text-left sm:space-x-4">
                             <a class="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white"
                                href="#">3</a>
-                            <span class="font-semibold text-gray-500">Payment</span>
+                            <span class="font-semibold text-gray-500">Order Confirmation</span>
                         </li>
                     </ul>
                 </div>
@@ -137,26 +139,23 @@
                 <p class="text-xl font-medium">Order Summary</p>
                 <p class="text-gray-400">Check your items. And select a suitable shipping method.</p>
                 <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-                    <div class="flex flex-col rounded-lg bg-white sm:flex-row">
-                        <img class="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                             src="https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                             alt=""/>
-                        <div class="flex w-full flex-col px-4 py-4">
-                            <span class="font-semibold">Nike Air Max Pro 8888 - Super Light</span>
-                            <span class="float-right text-gray-400">42EU - 8.5US</span>
-                            <p class="text-lg font-bold">$138.99</p>
+                    @foreach($cart->getItems() as $item)
+                        <div class="flex flex-col rounded-lg bg-white sm:flex-row">
+                            <img class="m-2 h-24 w-28 rounded-md border object-cover object-center"
+                                 src="{{asset('/img/products/' . $item->product->image)}}"
+                                 alt=""/>
+                            <div class="flex items-center">
+                                <div class="flex w-full flex-col px-4 py-4">
+                                    <span class="font-semibold">{{$item->product->name}}</span>
+                                    <span class="float-right text-gray-400">{{$item->product->category->name}}</span>
+                                    <p class="text-lg font-bold">${{$item->total / 100}}</p>
+                                    <p class="text-sm font-bold">Quantity: {{$item->quantity}}</p>
+                                </div>
+                            </div>
+
+
                         </div>
-                    </div>
-                    <div class="flex flex-col rounded-lg bg-white sm:flex-row">
-                        <img class="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                             src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                             alt=""/>
-                        <div class="flex w-full flex-col px-4 py-4">
-                            <span class="font-semibold">Nike Air Max Pro 8888 - Super Light</span>
-                            <span class="float-right text-gray-400">42EU - 8.5US</span>
-                            <p class="mt-auto text-lg font-bold">$238.99</p>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
 
                 {{--                <p class="mt-8 text-lg font-medium">Shipping Methods</p>--}}
@@ -281,7 +280,7 @@
                         <div class="mt-6 border-t border-b py-2">
                             <div class="flex items-center justify-between">
                                 <p class="text-sm font-medium text-gray-900">Subtotal</p>
-                                <p class="font-semibold text-gray-900">$399.00</p>
+                                <p class="font-semibold text-gray-900">${{$cart->getTotal() / 100}}</p>
                             </div>
                             {{--                            <div class="flex items-center justify-between">--}}
                             {{--                                <p class="text-sm font-medium text-gray-900">Shipping</p>--}}
@@ -290,7 +289,7 @@
                         </div>
                         <div class="mt-6 flex items-center justify-between">
                             <p class="text-sm font-medium text-gray-900">Total</p>
-                            <p class="text-2xl font-semibold text-gray-900">$408.00</p>
+                            <p class="text-2xl font-semibold text-gray-900">${{$cart->getTotal() / 100}}</p>
                         </div>
 
                         <button type="submit"

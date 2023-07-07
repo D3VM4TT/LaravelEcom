@@ -83,5 +83,11 @@ class CartService
         return null;
     }
 
+    public function clearCart(): void
+    {
+        session()->put('cart', []);
+        session()->flash('success', 'Item removed from cart');
+    }
+
 
 }

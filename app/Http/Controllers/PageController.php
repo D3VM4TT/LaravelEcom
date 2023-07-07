@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Product;
 use App\Services\CartService;
 use Illuminate\Http\Request;
@@ -62,9 +63,12 @@ class PageController extends Controller
         return view('pages/checkout', compact('cart'));
     }
 
-    public function orderSuccess(Request $request)
+    public function orderSuccess(Request $request, Order $order)
     {
-        return view('pages/order-success');
+
+        // TODO: Check the order belongs to the logged in user
+
+        return view('pages/order-success', compact('order'));
     }
 
 }

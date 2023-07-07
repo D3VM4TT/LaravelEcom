@@ -20,10 +20,11 @@
                 @foreach($cart->getItems() as $item)
                     <div class="flex items-center cursor-pointer hover:bg-gray-100 -mx-8 px-6 py-5">
                         <div class="flex w-2/5"> <!-- product -->
-                            <div class="w-20">
-                                <img class="h-24" src="{{asset('img/products/'.$item->product->image)}}"
-                                     alt="">
-                            </div>
+
+                            <img class="m-2 h-24 w-28 rounded-md border object-cover object-center"
+                                 src="{{asset('img/products/'.$item->product->image)}}"
+                                 alt="">
+
                             <div class="flex flex-col justify-between ml-4 flex-grow">
                                 <span class="font-bold text-sm">{{$item->product->name}}</span>
                                 <span class="text-red-500 text-xs">{{$item->product->category->name}}</span>
@@ -47,8 +48,8 @@
                                     d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"/>
                             </svg>
                         </div>
-                        <span class="text-center w-1/5 font-semibold text-sm">${{$item->product->price}}</span>
-                        <span class="text-center w-1/5 font-semibold text-sm">${{$item->total}} </span>
+                        <span class="text-center w-1/5 font-semibold text-sm">${{$item->product->price / 100}}</span>
+                        <span class="text-center w-1/5 font-semibold text-sm">${{$item->total / 100}} </span>
                     </div>
                 @endforeach
 
@@ -67,23 +68,23 @@
                 <h1 class="font-semibold text-2xl border-b pb-8">Order Summary</h1>
                 <div class="flex justify-between mt-10 mb-5">
                     <span class="font-semibold text-sm uppercase">Items {{$cart->getProductCount()}}</span>
-                    <span class="font-semibold text-sm">${{$cart->getTotal()}}</span>
+                    <span class="font-semibold text-sm">${{$cart->getTotal() / 100}}</span>
                 </div>
-{{--                <div>--}}
-{{--                    <label class="font-medium inline-block mb-3 text-sm uppercase">Shipping</label>--}}
-{{--                    <select class="block p-2 text-gray-600 w-full text-sm">--}}
-{{--                        <option>Standard shipping - $10.00</option>--}}
-{{--                    </select>--}}
-{{--                </div>--}}
-{{--                <div class="py-10">--}}
-{{--                    <label for="promo" class="font-semibold inline-block mb-3 text-sm uppercase">Promo Code</label>--}}
-{{--                    <input type="text" id="promo" placeholder="Enter your code" class="p-2 text-sm w-full">--}}
-{{--                </div>--}}
-{{--                <button class="bg-red-500 hover:bg-red-600 px-5 py-2 text-sm text-white uppercase">Apply</button>--}}
+                {{--                <div>--}}
+                {{--                    <label class="font-medium inline-block mb-3 text-sm uppercase">Shipping</label>--}}
+                {{--                    <select class="block p-2 text-gray-600 w-full text-sm">--}}
+                {{--                        <option>Standard shipping - $10.00</option>--}}
+                {{--                    </select>--}}
+                {{--                </div>--}}
+                {{--                <div class="py-10">--}}
+                {{--                    <label for="promo" class="font-semibold inline-block mb-3 text-sm uppercase">Promo Code</label>--}}
+                {{--                    <input type="text" id="promo" placeholder="Enter your code" class="p-2 text-sm w-full">--}}
+                {{--                </div>--}}
+                {{--                <button class="bg-red-500 hover:bg-red-600 px-5 py-2 text-sm text-white uppercase">Apply</button>--}}
                 <div class="border-t mt-8 flex flex-col">
                     <div class="flex font-semibold justify-between py-6 text-sm uppercase">
                         <span>Total cost</span>
-                        <span>${{$cart->getTotal()}}</span>
+                        <span>${{$cart->getTotal() / 100}}</span>
                     </div>
                     <a href="{{route('checkout')}}"
                        class="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full text-center">

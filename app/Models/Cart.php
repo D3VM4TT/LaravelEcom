@@ -10,6 +10,7 @@ class Cart
     {
     }
 
+    // TODO: This needs to return a collection of items
     public function getItems(): array
     {
         return $this->items;

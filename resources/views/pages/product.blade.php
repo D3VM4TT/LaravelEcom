@@ -121,7 +121,7 @@
                         </div>
                         <div class="flex">
                             <span
-                                class="title-font font-medium text-2xl text-gray-900">${{$product->price * 100}}</span>
+                                class="title-font font-medium text-2xl text-gray-900">${{$product->price / 100}}</span>
                             <button
                                 class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded"
                                 type="submit"
