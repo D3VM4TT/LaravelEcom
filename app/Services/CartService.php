@@ -12,9 +12,11 @@ use App\Models\Product;
 class CartService
 {
 
+    const SESSION_CART_NAME = 'cart';
+
     public function getCart(): ?Cart
     {
-        $cart = session()->get('cart');
+        $cart = session()->get(self::SESSION_CART_NAME);
 
         if (!$cart) {
             return null;
@@ -29,7 +31,7 @@ class CartService
         $total = 0;
 
         $cart = new Cart($items, $total);
-        session()->put('cart', $cart->toArray());
+        session()->put(self::SESSION_CART_NAME, $cart->toArray());
         return $cart;
     }
 
@@ -44,7 +46,7 @@ class CartService
 
         $cart->addItem($item);
 
-        session()->put('cart', $cart->toArray());
+        session()->put(self::SESSION_CART_NAME, $cart->toArray());
 
         session()->flash('success', 'Item added to cart');
 
@@ -60,7 +62,7 @@ class CartService
 
         $cart->removeItem($item);
 
-        session()->put('cart', $cart->toArray());
+        session()->put(self::SESSION_CART_NAME, $cart->toArray());
 
         session()->flash('success', 'Item removed from cart');
 
@@ -85,7 +87,7 @@ class CartService
 
     public function clearCart(): void
     {
-        session()->put('cart', []);
+        session()->forget(self::SESSION_CART_NAME);
         session()->flash('success', 'Item removed from cart');
     }
 

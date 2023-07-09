@@ -1,9 +1,9 @@
-@extends('layouts.master')
-@section('title', 'Order Complete')
+@extends('layouts.admin')
+
+@section('title', 'Admin Orders')
+@section('content_title', 'Order Management')
 
 @section('content')
-    @include('pages.components.home.header')
-    <!-- component -->
     <div class="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
         <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->
 
@@ -105,11 +105,9 @@
                             class="flex justify-center w-full md:justify-start items-center space-x-4 py-8 border-b border-gray-200">
                             <img src="https://i.ibb.co/5TSg7f6/Rectangle-18.png" alt="avatar"/>
                             <div class="flex justify-start items-start flex-col space-y-2">
-                                <a href="{{route('profile')}}}">
-                                    <p class="text-base dark:text-white font-semibold leading-4 text-left text-gray-800">{{$order->user->name}}</p>
-                                    <p class="text-sm dark:text-gray-300 leading-5 text-gray-600">{{count($order->user->orders) - 1  }}
-                                        Previous Orders</p>
-                                </a>
+                                <p class="text-base dark:text-white font-semibold leading-4 text-left text-gray-800">{{$order->user->name}}</p>
+                                <p class="text-sm dark:text-gray-300 leading-5 text-gray-600">{{count($order->user->orders) - 1  }}
+                                    Previous Orders</p>
                             </div>
                         </div>
 
@@ -123,10 +121,7 @@
                                 <path d="M3 7L12 13L21 7" stroke="currentColor" stroke-linecap="round"
                                       stroke-linejoin="round"/>
                             </svg>
-
-                            <a href="{{route('profile')}}}">
-                                <p class="cursor-pointer text-sm leading-5 ">{{$order->billing_email}}</p>
-                            </a>
+                            <p class="cursor-pointer text-sm leading-5 ">{{$order->billing_email}}</p>
                         </div>
                     </div>
                     <div class="flex justify-between xl:h-full items-stretch w-full flex-col mt-6 md:mt-0">
@@ -160,5 +155,4 @@
             </div>
         </div>
     </div>
-
 @endsection

@@ -19,23 +19,19 @@ class PaymentController extends Controller
     public function processPayment(PaymentRequest $request)
     {
         $user = Auth::user();
-
         $cart = $this->cartService->getCart();
 
         if (!$cart || empty($cart->getItems())) {
             return redirect()->route('home');
         }
 
-
-        // TODO: set secret key to ENV variable
-        \Stripe\Stripe::setApiKey('sk_test_51NPjN1B7J3V6AhSUzksz65tTtygrs5MG7WVKTJxzDw3YvCm0SQ1EEPeAQrxn9iy8ueEmLl4BeBxwkaNuoI1uwmAF00l8lcyL2m');
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
         try {
+            // TODO: All payments are currently being saved as Jenny Rosen in stripe
             $payment_intent = \Stripe\PaymentIntent::create([
                 'amount' => $cart->getTotal(),
                 'currency' => 'usd',
-                // TODO: Create a stripe customer and pass the customer id here
-//                'customer' => '{{CUSTOMER_ID}}',
                 'payment_method' => $request->payment_method_id,
                 'confirm' => true,
             ]);
@@ -58,7 +54,7 @@ class PaymentController extends Controller
         $order = Order::create([
             'user_id' => $user->id,
             'total' => $cart->getTotal(),
-            'status' => 'paid',
+            'status' => Order::STATUS_PAID,
             'payment_intent_id' => $payment_intent->id,
             'billing_email' => $request->email,
             'billing_name' => $request->card_holder,
@@ -76,7 +72,7 @@ class PaymentController extends Controller
 
         $this->cartService->clearCart();
 
-        return redirect()->route('order.success', ['order' => $order])->with('success', 'Payment successful!');
+        return redirect()->route('order.show', ['order' => $order])->with('success', 'Payment successful!');
 
 
     }
