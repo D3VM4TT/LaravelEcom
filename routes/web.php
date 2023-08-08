@@ -11,6 +11,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'index'])->name('home');
@@ -31,7 +32,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('order/process-payment', [PaymentController::class, 'processPayment'])->name('order.process-payment');
     Route::get('order/{order}', [PageController::class, 'orderSuccess'])->name('order.show');
     Route::get('profile', [PageController::class, 'profile'])->name('profile');
+
     Route::get('wishlist', [PageController::class, 'wishlist'])->name('wishlist');
+    Route::get('wishlist/add/{product}', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
+    Route::get('wishlist/remove/{product}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('admin', [AdminController::class, 'admin'])->name('admin');

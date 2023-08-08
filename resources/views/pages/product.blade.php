@@ -128,20 +128,22 @@
                             >
                                 Add to Cart
                             </button>
-                            <button
-                                class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
-                                <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            <a href="{{route($isInWishlist ? 'wishlist.remove' : 'wishlist.add', ['product' => $product])}}"
+                               class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
+                                <svg fill="{{$isInWishlist ? 'red' : 'currentColor'}}" stroke-linecap="round"
+                                     stroke-linejoin="round" stroke-width="2"
                                      class="w-5 h-5" viewBox="0 0 24 24">
                                     <path
                                         d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                                 </svg>
-                            </button>
+                            </a>
                         </div>
                     </form>
 
-                @if ($message = Session::get('success'))
+                    @if ($message = Session::get('success'))
                         {{-- TODO: Format popup --}}
-                        <div class="js-add-to-cart-modal relative z-10"  id="defaultModal"  aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                        <div class="js-add-to-cart-modal relative z-10" id="defaultModal" aria-labelledby="modal-title"
+                             role="dialog" aria-modal="true">
                             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
                             <div class="fixed inset-0 z-10 overflow-y-auto">
@@ -153,21 +155,22 @@
                                             <div class="sm:flex sm:items-start">
                                                 <div
                                                     class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                                                        <i class="fas fa-check-circle text-green-600 text-2xl"></i>
+                                                    <i class="fas fa-check-circle text-green-600 text-2xl"></i>
                                                     </svg>
                                                 </div>
                                                 <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                                     <h3 class="text-base font-semibold leading-6 text-gray-900"
                                                         id="modal-title">Item Added to Cart</h3>
                                                     <div class="mt-2">
-                                                        <p class="text-sm text-gray-500">Item has been successfully added to your shopping cart</p>
+                                                        <p class="text-sm text-gray-500">Item has been successfully
+                                                            added to your shopping cart</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                                             <a href="{{route('cart.index')}}"
-                                                    class="inline-flex w-full justify-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">
+                                               class="inline-flex w-full justify-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">
                                                 Go to Cart
                                             </a>
                                             <button type="button"

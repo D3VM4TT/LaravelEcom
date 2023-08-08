@@ -80,4 +80,9 @@ class ProductService
 
         return $product;
     }
+
+    public function isInWishlist(Product $product): bool
+    {
+        return auth()->user() ? auth()->user()->wishlist->contains($product) : false;
+    }
 }

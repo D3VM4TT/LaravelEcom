@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Product;
 use App\Services\CartService;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
 
 
-    public function __construct(private CartService $cartService)
+    public function __construct(private CartService $cartService, private ProductService $productService)
     {
     }
 
@@ -49,7 +50,9 @@ class PageController extends Controller
     {
         $product = Product::find($id);
 
-        return view('pages/product', compact('product'));
+        $isInWishlist = $this->productService->isInWishlist($product);
+
+        return view('pages/product', compact('product', 'isInWishlist'));
     }
 
     public function checkout(Request $request)
